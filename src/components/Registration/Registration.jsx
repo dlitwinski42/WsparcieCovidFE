@@ -139,10 +139,10 @@ const Registration = () => {
         <EntrepreneurForm
           register={register}
           errors={errors}
-          control={control}
+          // control={control}
         />
       )}
-      <input title="aaa" type="submit" />
+      <input type="submit" />
     </form>
   );
 };

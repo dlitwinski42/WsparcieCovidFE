@@ -8,6 +8,7 @@ const getDefaultState = () => ({
   accessToken: localStorage.getItem("accessToken"),
   refreshToken: localStorage.getItem("refreshToken"),
   role: localStorage.getItem("role"),
+  roleId: localStorage.getItem("roleId"),
 });
 
 const AuthContext = React.createContext(getDefaultState());
@@ -28,6 +29,7 @@ const AuthContextProvider = ({ children }) => {
       localStorage.setItem("accessToken", result.data.accessToken);
       localStorage.setItem("refreshToken", result.data.refreshToken);
       localStorage.setItem("role", result.data.role);
+      localStorage.setItem("roleId", result.data.roleId);
       // @ts-ignore
       setState(result.data);
       console.log("Zalogowano");
@@ -41,6 +43,7 @@ const AuthContextProvider = ({ children }) => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("role");
+    localStorage.removeItem("roleId");
     axios.defaults.headers.common.Authorization = undefined;
     history.push(paths.login);
     setState(getDefaultState());
