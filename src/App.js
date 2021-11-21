@@ -13,6 +13,7 @@ import MenuDrawer from "./components/Drawer";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import WhoAmI from "./components/WhoAmI";
+import Order from "./components/Order";
 import { AuthContextProvider } from "./store/auth.jsx";
 import "./App.css";
 import ProductAdd from "./components/ProductAdd";
@@ -37,6 +38,9 @@ function App() {
             </Route>
             <Route exact path={paths.giftCardCreation + "/:id"}>
               <GiftCard />
+            </Route>
+            <Route exact path={paths.orderCreation + "/:id"}>
+              <Order />
             </Route>
             <Route exact path={paths.entrepreneurView}>
               <Entrepreneur />

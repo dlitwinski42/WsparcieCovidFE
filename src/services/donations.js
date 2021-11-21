@@ -13,5 +13,33 @@ class DonationService {
       return { status: REQUEST_STATUS.ERROR, error };
     }
   }
+
+  static async getDonations(entrepreneurId) {
+    try {
+      console.log("i tried");
+      console.log(entrepreneurId);
+      console.log(ENDPOINT.getActiveDonations);
+      const { data } = await axios.get(
+        `${ENDPOINT.getActiveDonations}/${entrepreneurId}`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
+  static async confirmDonation(donationId) {
+    try {
+      console.log("i tried");
+      console.log(donationId);
+      console.log(ENDPOINT.confirmDonation);
+      const { data } = await axios.get(
+        `${ENDPOINT.confirmDonation}/${donationId}/confirm`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
 }
 export default DonationService;

@@ -39,10 +39,13 @@ const EntrepreneurForm = ({ register, errors, control }) => {
       {errors.name && <span>Nazwa jest wymagana</span>}
       <input {...register("supportDonation")} type="checkbox" />
       Bezpośrednie wsparcie
+      <br />
       <input {...register("supportGiftCard")} type="checkbox" />
-      Bezpośrednie wsparcie
+      Karty Podarunkowe
+      <br />
       <input {...register("supportOrder")} type="checkbox" />
-      Bezpośrednie wsparcie
+      Zamówienie
+      <br />
       {/* <Controller
         name="supportDonation"
         control={control}
