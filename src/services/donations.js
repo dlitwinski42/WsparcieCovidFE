@@ -41,5 +41,33 @@ class DonationService {
       return { status: REQUEST_STATUS.ERROR, error };
     }
   }
+
+  static async getConfirmed(entrepreneurId) {
+    try {
+      console.log("Trying confirmed donations");
+      console.log(entrepreneurId);
+      console.log(ENDPOINT.getConfirmedDonations);
+      const { data } = await axios.get(
+        `${ENDPOINT.getConfirmedDonations}/${entrepreneurId}`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
+  static async getHistory(contributorId) {
+    try {
+      console.log("Trying donation history");
+      console.log(contributorId);
+      console.log(ENDPOINT.getHistoryDonations);
+      const { data } = await axios.get(
+        `${ENDPOINT.getHistoryDonations}/${contributorId}`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
 }
 export default DonationService;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -17,6 +17,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import WhoAmI from "../WhoAmI";
+import { AuthContext } from "../../store/auth";
+import EntrepreneurNav from "../EntrepreneurNav";
+import ContributorNav from "../ContributorNav";
 
 const drawerWidth = 240;
 
@@ -30,6 +34,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function MenuDrawer({ open, onClose }) {
+  const { accessToken, role, roleId } = useContext(AuthContext);
   const theme = useTheme();
   const [drawerOpen, setOpen] = React.useState(open);
 
@@ -39,6 +44,19 @@ export default function MenuDrawer({ open, onClose }) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const getResult = (accessToken, role, roleId) => {
+    if (accessToken) {
+      return (
+        <div>
+          {" "}
+          I am a {role} with id {roleId}{" "}
+        </div>
+      );
+    } else {
+      return <div> Niezalogowany </div>;
+    }
   };
   return (
     <Drawer
@@ -65,7 +83,7 @@ export default function MenuDrawer({ open, onClose }) {
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <Typography>Aaaa</Typography>
+      {role === "Entrepreneur" ? <EntrepreneurNav /> : <ContributorNav />}
     </Drawer>
   );
 }

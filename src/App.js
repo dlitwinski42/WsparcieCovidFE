@@ -17,6 +17,10 @@ import Order from "./components/Order";
 import { AuthContextProvider } from "./store/auth.jsx";
 import "./App.css";
 import ProductAdd from "./components/ProductAdd";
+import EntrepreneurHistory from "./components/EntrepreneurHistory";
+import ContributorHistory from "./components/ContributorHistory";
+import ReviewList from "./components/ReviewsList";
+import ReviewForm from "./components/ReviewForm";
 
 function App() {
   const [isDrawerOpen, openDrawer] = useState(false);
@@ -53,6 +57,18 @@ function App() {
             </Route>
             <Route exact path={paths.registration}>
               <Registration />
+            </Route>
+            <Route exact path={paths.entrepreneurHistory}>
+              <EntrepreneurHistory />
+            </Route>
+            <Route exact path={paths.contributorHistory}>
+              <ContributorHistory />
+            </Route>
+            <Route exact path={paths.reviewList + "/:id"}>
+              <ReviewList />
+            </Route>
+            <Route exact path={paths.reviewCreation + "/:id"}>
+              <ReviewForm />
             </Route>
             <Route exact path={paths.entrepreneurList}>
               <EntrepreneurList />

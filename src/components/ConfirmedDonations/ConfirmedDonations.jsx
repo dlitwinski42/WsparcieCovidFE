@@ -11,18 +11,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
-const ActiveDonations = () => {
+const ConfirmedDonations = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
   const [list, setList] = useState();
   useEffect(() => getDonations(), []);
 
-  const confirmDonation = async (donationId) => {
-    let data = await DonationService.confirmDonation(donationId);
-    console.log(data);
-  };
-
   const getDonations = async () => {
-    let data = await DonationService.getDonations(roleId);
+    let data = await DonationService.getConfirmed(roleId);
     console.log(data);
     let array = data.data.map((donation) => (
       <TableRow
@@ -39,14 +34,6 @@ const ActiveDonations = () => {
           {donation.contributor.user.firstName}{" "}
           {donation.contributor.user.lastName}
         </TableCell>
-        <TableCell component="th" scope="row">
-          <Button
-            variant="contained"
-            onClick={() => confirmDonation(donation.id)}
-          >
-            Potwierdź
-          </Button>{" "}
-        </TableCell>
       </TableRow>
     ));
     setList(array);
@@ -54,7 +41,7 @@ const ActiveDonations = () => {
 
   return (
     <Box>
-      <h3> Wsparcie wymagające potwierdzenia</h3>
+      <h3> Bezpośrednie wsparcie</h3>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -74,4 +61,4 @@ const ActiveDonations = () => {
   );
 };
 
-export default ActiveDonations;
+export default ConfirmedDonations;

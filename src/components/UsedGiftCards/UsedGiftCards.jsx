@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useContext, useState, useEffect } from "react";
-import DonationService from "../../services/donations";
+import GiftCardService from "../../services/giftcards";
 import { AuthContext } from "../../store/auth";
-import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
+import Box from "@mui/material/Box";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -11,41 +12,28 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
-const ActiveDonations = () => {
+const UsedGiftCards = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
   const [list, setList] = useState();
-  useEffect(() => getDonations(), []);
+  useEffect(() => getGiftCards(), []);
 
-  const confirmDonation = async (donationId) => {
-    let data = await DonationService.confirmDonation(donationId);
+  const getGiftCards = async () => {
+    let data = await GiftCardService.getUsed(roleId);
     console.log(data);
-  };
-
-  const getDonations = async () => {
-    let data = await DonationService.getDonations(roleId);
-    console.log(data);
-    let array = data.data.map((donation) => (
+    let array = data.data.map((giftcard) => (
       <TableRow
-        key={donation.id}
+        key={giftcard.id}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {donation.donationCode}
+          {giftcard.redeemCode}
         </TableCell>
         <TableCell component="th" scope="row">
-          {donation.amount}
+          {giftcard.amount}
         </TableCell>
         <TableCell component="th" scope="row">
-          {donation.contributor.user.firstName}{" "}
-          {donation.contributor.user.lastName}
-        </TableCell>
-        <TableCell component="th" scope="row">
-          <Button
-            variant="contained"
-            onClick={() => confirmDonation(donation.id)}
-          >
-            Potwierdź
-          </Button>{" "}
+          {giftcard.contributor.user.firstName}{" "}
+          {giftcard.contributor.user.lastName}
         </TableCell>
       </TableRow>
     ));
@@ -54,7 +42,7 @@ const ActiveDonations = () => {
 
   return (
     <Box>
-      <h3> Wsparcie wymagające potwierdzenia</h3>
+      <h3> Karty Podarunkowe </h3>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -74,4 +62,4 @@ const ActiveDonations = () => {
   );
 };
 
-export default ActiveDonations;
+export default UsedGiftCards;

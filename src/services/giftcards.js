@@ -42,6 +42,34 @@ class GiftCardService {
     }
   }
 
+  static async getUsed(entrepreneurId) {
+    try {
+      console.log("Trying Used GiftCards");
+      console.log(entrepreneurId);
+      console.log(ENDPOINT.getUsedGiftCards);
+      const { data } = await axios.get(
+        `${ENDPOINT.getUsedGiftCards}/${entrepreneurId}`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
+  static async getHistory(contributorId) {
+    try {
+      console.log("Trying GiftCard History");
+      console.log(contributorId);
+      console.log(ENDPOINT.getHistoryGiftCards);
+      const { data } = await axios.get(
+        `${ENDPOINT.getHistoryGiftCards}/${contributorId}`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
   static async confirmGiftCard(giftcardId) {
     try {
       console.log("i tried");
@@ -49,6 +77,20 @@ class GiftCardService {
       console.log(ENDPOINT.confirmGiftCard);
       const { data } = await axios.get(
         `${ENDPOINT.confirmGiftCard}/${giftcardId}/paid`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
+  static async useGiftCard(giftcardId) {
+    try {
+      console.log("i tried");
+      console.log(giftcardId);
+      console.log(ENDPOINT.confirmGiftCard);
+      const { data } = await axios.get(
+        `${ENDPOINT.confirmGiftCard}/${giftcardId}/used`
       );
       return { status: REQUEST_STATUS.SUCCESS, data };
     } catch (error) {

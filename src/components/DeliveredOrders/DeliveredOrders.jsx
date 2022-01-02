@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import DonationService from "../../services/donations";
+import OrdersService from "../../services/orders";
 import { AuthContext } from "../../store/auth";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -11,41 +11,36 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
-const ActiveDonations = () => {
+const DeliveredOrders = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
   const [list, setList] = useState();
-  useEffect(() => getDonations(), []);
+  useEffect(() => getOrders(), []);
 
-  const confirmDonation = async (donationId) => {
-    let data = await DonationService.confirmDonation(donationId);
-    console.log(data);
+  const seeOrder = async (orderId) => {
+    console.log("Zobacz szczegóły");
   };
 
-  const getDonations = async () => {
-    let data = await DonationService.getDonations(roleId);
+  const getOrders = async () => {
+    let data = await OrdersService.getActive(roleId);
     console.log(data);
-    let array = data.data.map((donation) => (
+    let array = data.data.map((order) => (
       <TableRow
-        key={donation.id}
+        key={order.id}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {donation.donationCode}
+          {order.address.city} {order.address.street} {order.address.flatNumber}
+          {"/"}
+          {order.address.houseNumber}
+          {""}
         </TableCell>
         <TableCell component="th" scope="row">
-          {donation.amount}
+          {order.contributor.user.firstName} {order.contributor.user.lastName}
         </TableCell>
         <TableCell component="th" scope="row">
-          {donation.contributor.user.firstName}{" "}
-          {donation.contributor.user.lastName}
-        </TableCell>
-        <TableCell component="th" scope="row">
-          <Button
-            variant="contained"
-            onClick={() => confirmDonation(donation.id)}
-          >
-            Potwierdź
-          </Button>{" "}
+          <Button variant="contained" onClick={() => seeOrder(order.id)}>
+            Zobacz szczegóły
+          </Button>
         </TableCell>
       </TableRow>
     ));
@@ -54,14 +49,13 @@ const ActiveDonations = () => {
 
   return (
     <Box>
-      <h3> Wsparcie wymagające potwierdzenia</h3>
+      <h3> Zrealizowane zamówienia</h3>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Kod</TableCell>
-              <TableCell>Kwota</TableCell>
-              <TableCell>Wspierający</TableCell>
+              <TableCell>Adres</TableCell>
+              <TableCell>Dane zamawiającego</TableCell>
               <TableCell align="right" colSpan="3">
                 Akcje
               </TableCell>
@@ -74,4 +68,4 @@ const ActiveDonations = () => {
   );
 };
 
-export default ActiveDonations;
+export default DeliveredOrders;

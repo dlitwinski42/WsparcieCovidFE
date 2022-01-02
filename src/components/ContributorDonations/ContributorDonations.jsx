@@ -11,18 +11,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
-const ActiveDonations = () => {
+const ContributorDonations = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
   const [list, setList] = useState();
   useEffect(() => getDonations(), []);
 
-  const confirmDonation = async (donationId) => {
-    let data = await DonationService.confirmDonation(donationId);
-    console.log(data);
-  };
-
   const getDonations = async () => {
-    let data = await DonationService.getDonations(roleId);
+    let data = await DonationService.getHistory(roleId);
     console.log(data);
     let array = data.data.map((donation) => (
       <TableRow
@@ -36,16 +31,7 @@ const ActiveDonations = () => {
           {donation.amount}
         </TableCell>
         <TableCell component="th" scope="row">
-          {donation.contributor.user.firstName}{" "}
-          {donation.contributor.user.lastName}
-        </TableCell>
-        <TableCell component="th" scope="row">
-          <Button
-            variant="contained"
-            onClick={() => confirmDonation(donation.id)}
-          >
-            Potwierdź
-          </Button>{" "}
+          {donation.entrepreneur.name}
         </TableCell>
       </TableRow>
     ));
@@ -54,14 +40,14 @@ const ActiveDonations = () => {
 
   return (
     <Box>
-      <h3> Wsparcie wymagające potwierdzenia</h3>
+      <h3> Bezpośrednie wsparcie</h3>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Kod</TableCell>
               <TableCell>Kwota</TableCell>
-              <TableCell>Wspierający</TableCell>
+              <TableCell>Nazwa Przedsiębiorstwa</TableCell>
               <TableCell align="right" colSpan="3">
                 Akcje
               </TableCell>
@@ -74,4 +60,4 @@ const ActiveDonations = () => {
   );
 };
 
-export default ActiveDonations;
+export default ContributorDonations;

@@ -1,4 +1,6 @@
 import react, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { paths } from "../../strings";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,6 +15,15 @@ import EntrepreneurService from "../../services/entrepreneurs";
 const EntrepreneurList = () => {
   const [list, setList] = useState();
   useEffect(() => getEntrepreneur(), []);
+  const history = useHistory();
+
+  const seeReviews = (entrepreneur) => {
+    console.log("Zobacz recenzje przedsiębiorcy" + entrepreneur.id);
+    history.push({
+      pathname: `${paths.reviewList}/${entrepreneur.id}`,
+      state: { entrepreneur },
+    });
+  };
 
   const getEntrepreneur = async () => {
     let data = await EntrepreneurService.getEntrepreneur();
@@ -35,7 +46,7 @@ const EntrepreneurList = () => {
           {entrepreneur.description ? entrepreneur.description : ""}{" "}
         </TableCell>
         <TableCell component="th" scope="row">
-          Donation:{" "}
+          {" "}
           {entrepreneur.supportMethods ? (
             entrepreneur.supportMethods.canDonate ? (
               <Link
@@ -48,12 +59,11 @@ const EntrepreneurList = () => {
                 <Button variant="contained">Wesprzyj</Button>{" "}
               </Link>
             ) : (
-              "false"
+              ""
             )
           ) : (
             ""
           )}{" "}
-          GiftCard:{" "}
           {entrepreneur.supportMethods ? (
             entrepreneur.supportMethods.canGiftCard ? (
               <Link
@@ -66,12 +76,11 @@ const EntrepreneurList = () => {
                 <Button variant="contained">Karty Podarunkowe</Button>{" "}
               </Link>
             ) : (
-              "false"
+              ""
             )
           ) : (
             ""
           )}{" "}
-          Zamówienie:
           {entrepreneur.supportMethods ? (
             entrepreneur.supportMethods.canOrder ? (
               <Link
@@ -84,11 +93,16 @@ const EntrepreneurList = () => {
                 <Button variant="contained">Zamów</Button>{" "}
               </Link>
             ) : (
-              "false"
+              ""
             )
           ) : (
             ""
           )}{" "}
+        </TableCell>
+        <TableCell>
+          <Button variant="contained" onClick={() => seeReviews(entrepreneur)}>
+            Zobacz Recenzje
+          </Button>
         </TableCell>
       </TableRow>
     ));
@@ -105,6 +119,9 @@ const EntrepreneurList = () => {
             <TableCell>Opis</TableCell>
             <TableCell align="right" colSpan="3">
               Formy Wsparcia
+            </TableCell>
+            <TableCell align="right" colSpan="3">
+              Recenzje
             </TableCell>
           </TableRow>
         </TableHead>

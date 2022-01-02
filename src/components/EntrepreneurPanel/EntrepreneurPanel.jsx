@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ActiveDonations from "../ActiveDonations";
 import ActiveGiftCards from "../ActiveGiftCards";
 import ActiveOrders from "../ActiveOrders";
+import AvailableGiftCards from "../AvailableGiftCards";
 
 const EntrepreneurPanel = () => {
   const { accessToken, signOut, role } = useContext(AuthContext);
@@ -22,6 +23,7 @@ const EntrepreneurPanel = () => {
       </Link>
       <ActiveDonations />
       <ActiveGiftCards />
+      <AvailableGiftCards />
       <ActiveOrders />
     </>
   );
