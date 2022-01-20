@@ -10,7 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-const EntrepreneurNav = () => {
+const AdminNav = () => {
   const { accessToken, signOut, role } = useContext(AuthContext);
   const history = useHistory();
 
@@ -20,10 +20,6 @@ const EntrepreneurNav = () => {
 
   const handlePanel = () => {
     history.push(paths.accountView);
-  };
-
-  const handleHistory = () => {
-    history.push(paths.entrepreneurHistory);
   };
 
   return (
@@ -36,17 +32,11 @@ const EntrepreneurNav = () => {
       </ListItem>
       <ListItem button onClick={handlePanel}>
         <ListItemIcon>
-          <ArrowForwardIcon />
-        </ListItemIcon>
-        <ListItemText primary={`Panel Przedsiębiorcy`} />
-      </ListItem>
-      <ListItem button onClick={handleHistory}>
-        <ListItemIcon>
           <HistoryIcon />
         </ListItemIcon>
-        <ListItemText primary={`Panel Historii Wsparcia`} />
+        <ListItemText primary={`Panel Admina`} />
       </ListItem>
     </List>
   );
 };
-export default EntrepreneurNav;
+export default AdminNav;

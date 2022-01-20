@@ -21,6 +21,11 @@ const ActiveDonations = () => {
     console.log(data);
   };
 
+  const reportDonation = async (donationId) => {
+    let data = await DonationService.reportDonation(donationId);
+    console.log(data);
+  };
+
   const getDonations = async () => {
     let data = await DonationService.getDonations(roleId);
     console.log(data);
@@ -29,6 +34,9 @@ const ActiveDonations = () => {
         key={donation.id}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
+        <TableCell component="th" scope="row">
+          {donation.dateSent}
+        </TableCell>
         <TableCell component="th" scope="row">
           {donation.donationCode}
         </TableCell>
@@ -46,6 +54,12 @@ const ActiveDonations = () => {
           >
             Potwierdź
           </Button>{" "}
+          <Button
+            variant="contained"
+            onClick={() => reportDonation(donation.id)}
+          >
+            Zgłoś
+          </Button>{" "}
         </TableCell>
       </TableRow>
     ));
@@ -59,12 +73,11 @@ const ActiveDonations = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
+              <TableCell>Data</TableCell>
               <TableCell>Kod</TableCell>
               <TableCell>Kwota</TableCell>
               <TableCell>Wspierający</TableCell>
-              <TableCell align="right" colSpan="3">
-                Akcje
-              </TableCell>
+              <TableCell>Akcje</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{list}</TableBody>

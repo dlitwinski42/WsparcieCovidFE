@@ -13,23 +13,25 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const ReviewList = () => {
+const AdminReviews = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
   const [list, setList] = useState();
   useEffect(() => getReviews(), []);
 
-  const location = useLocation();
-  console.log(location.state);
   const history = useHistory();
 
-  const reportReview = async (reviewId) => {
-    console.log("Id: " + reviewId);
-    let data = await ReviewService.reportReview(reviewId);
+  const failReview = async (reviewId) => {
+    let data = await ReviewService.failReview(reviewId);
+    console.log(data);
+  };
+
+  const returnReview = async (reviewId) => {
+    let data = await ReviewService.returnReview(reviewId);
     console.log(data);
   };
 
   const getReviews = async () => {
-    let data = await ReviewService.getReviews(location.state.entrepreneur.id);
+    let data = await ReviewService.getReported();
     console.log(data);
 
     let array = data.data.map((review) => (
@@ -49,34 +51,20 @@ const ReviewList = () => {
         <TableCell component="th" scope="row">
           {review.reviewBody}
         </TableCell>
-        <TableCell component="th" scope="row">
-          <Button variant="contained" onClick={() => reportReview(review.id)}>
-            Zgłoś
-          </Button>
-        </TableCell>
+        <Button variant="contained" onClick={() => failReview(review.id)}>
+          Usuń akcje
+        </Button>{" "}
+        <Button variant="contained" onClick={() => returnReview(review.id)}>
+          Zwróc do przedsiębiorcy
+        </Button>{" "}
       </TableRow>
     ));
     setList(array);
   };
 
-  const createReview = (entrepreneur) => {
-    console.log("Wystaw recenzje przedsiębiorcy " + entrepreneur.id);
-    history.push({
-      pathname: `${paths.reviewCreation}/${entrepreneur.id}`,
-      state: { entrepreneur },
-    });
-  };
   return (
     <>
-      <h3>{`Opinie użytkowników o przedsiębiorstwie ${location.state.entrepreneur.name}`}</h3>
-      {role === "Contributor" && (
-        <Button
-          variant="contained"
-          onClick={() => createReview(location.state.entrepreneur)}
-        >
-          Wystaw recenzje
-        </Button>
-      )}
+      <h3>Zgłoszone Recenzje</h3>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -85,7 +73,7 @@ const ReviewList = () => {
               <TableCell>Autor</TableCell>
               <TableCell>Ocena</TableCell>
               <TableCell>Treść</TableCell>
-              <TableCell></TableCell>
+              <TableCell>Akcje</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{list}</TableBody>
@@ -94,4 +82,4 @@ const ReviewList = () => {
     </>
   );
 };
-export default ReviewList;
+export default AdminReviews;

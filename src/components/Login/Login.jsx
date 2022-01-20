@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../store/auth";
 import { paths } from "../../strings.js";
 import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
 const Login = () => {
   const {
@@ -29,19 +31,60 @@ const Login = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* register your input into the hook by invoking the "register" function */}
-      <TextField defaultValue="test" {...register("login")} />
-      {errors.login && <span>Login jest wymagany</span>}
-
-      {/* include validation with required or other standard HTML validation rules */}
-      <TextField
-        type="password"
-        {...register("password", { required: true })}
-      />
-      {/* errors will return when field validation fails  */}
-      {errors.password && <span>Hasło jest wymagane</span>}
-
-      <input type="submit" />
+      <div
+        style={{
+          display: "flex",
+          padding: 20,
+          justifyContent: "center",
+        }}
+      >
+        <Grid
+          container
+          xs={4}
+          spacing={3}
+          style={{
+            border: "2px solid black",
+            borderRadius: 25,
+            boxShadow: "0 0 3px 3px gray",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          <Grid item xs={12} style={{ align: "center" }}>
+            <h3>Logowanie</h3>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Login"
+              {...register("login", { required: true })}
+            />
+            {errors.login && <span>Login jest wymagany</span>}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Hasło"
+              type="password"
+              {...register("password", { required: true })}
+            />
+            {errors.password && <span>Hasło jest wymagane</span>}
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            style={{ justifyContent: "center", display: "flex" }}
+          >
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ margin: 10 }}
+            >
+              {" "}
+              Prześlij{" "}
+            </Button>
+          </Grid>
+        </Grid>
+      </div>
     </form>
   );
 };

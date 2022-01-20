@@ -9,7 +9,7 @@ const EntrepreneurHistory = () => {
 
   return (
     <>
-      <div>Entrepreneur History</div>
+      <h1> Historia Wsparcia </h1>
       <ConfirmedDonations />
       <UsedGiftCards />
       <DeliveredOrders />

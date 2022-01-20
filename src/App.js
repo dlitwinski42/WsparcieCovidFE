@@ -21,6 +21,7 @@ import EntrepreneurHistory from "./components/EntrepreneurHistory";
 import ContributorHistory from "./components/ContributorHistory";
 import ReviewList from "./components/ReviewsList";
 import ReviewForm from "./components/ReviewForm";
+import OrderInfo from "./components/OrderInfo";
 
 function App() {
   const [isDrawerOpen, openDrawer] = useState(false);
@@ -45,6 +46,9 @@ function App() {
             </Route>
             <Route exact path={paths.orderCreation + "/:id"}>
               <Order />
+            </Route>
+            <Route exact path={paths.orderInfo + "/:id"}>
+              <OrderInfo />
             </Route>
             <Route exact path={paths.entrepreneurView}>
               <Entrepreneur />

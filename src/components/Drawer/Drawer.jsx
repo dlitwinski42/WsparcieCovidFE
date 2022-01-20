@@ -21,6 +21,7 @@ import WhoAmI from "../WhoAmI";
 import { AuthContext } from "../../store/auth";
 import EntrepreneurNav from "../EntrepreneurNav";
 import ContributorNav from "../ContributorNav";
+import AdminNav from "../AdminNav";
 
 const drawerWidth = 240;
 
@@ -83,7 +84,9 @@ export default function MenuDrawer({ open, onClose }) {
         </IconButton>
       </DrawerHeader>
       <Divider />
-      {role === "Entrepreneur" ? <EntrepreneurNav /> : <ContributorNav />}
+      {role === "Entrepreneur" && <EntrepreneurNav />}
+      {role === "Contributor" && <ContributorNav />}
+      {role === "Admin" && <AdminNav />}
     </Drawer>
   );
 }

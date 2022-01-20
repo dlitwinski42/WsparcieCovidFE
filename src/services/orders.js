@@ -70,13 +70,26 @@ class OrdersService {
     }
   }
 
+  static async getOrderInfo(orderId) {
+    try {
+      console.log("i tried");
+      console.log(orderId);
+      console.log(ENDPOINT.getOrderInfo);
+      const { data } = await axios.get(`${ENDPOINT.getOrderInfo}/${orderId}`);
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
   static async confirmOrder(orderId) {
     try {
       console.log("i tried");
       console.log(orderId);
       console.log(ENDPOINT.confirmOrder);
+      console.log();
       const { data } = await axios.get(
-        `${ENDPOINT.confirmOrder}/${orderId}/paid`
+        `${ENDPOINT.confirmOrder}/${orderId}/received`
       );
       return { status: REQUEST_STATUS.SUCCESS, data };
     } catch (error) {

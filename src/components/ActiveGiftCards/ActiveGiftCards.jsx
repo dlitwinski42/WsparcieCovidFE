@@ -21,6 +21,11 @@ const ActiveGiftCards = () => {
     console.log(data);
   };
 
+  const reportGiftCard = async (giftcardId) => {
+    let data = await GiftCardService.reportGiftCard(giftcardId);
+    console.log(data);
+  };
+
   const getGiftCards = async () => {
     let data = await GiftCardService.getActive(roleId);
     console.log(data);
@@ -29,6 +34,9 @@ const ActiveGiftCards = () => {
         key={giftcard.id}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
+        <TableCell component="th" scope="row">
+          {giftcard.timeOrdered}
+        </TableCell>
         <TableCell component="th" scope="row">
           {giftcard.redeemCode}
         </TableCell>
@@ -46,6 +54,12 @@ const ActiveGiftCards = () => {
           >
             Potwierdź
           </Button>{" "}
+          <Button
+            variant="contained"
+            onClick={() => reportGiftCard(giftcard.id)}
+          >
+            Zgłoś
+          </Button>{" "}
         </TableCell>
       </TableRow>
     ));
@@ -59,12 +73,11 @@ const ActiveGiftCards = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
+              <TableCell>Data</TableCell>
               <TableCell>Kod</TableCell>
               <TableCell>Kwota</TableCell>
               <TableCell>Wspierający</TableCell>
-              <TableCell align="right" colSpan="3">
-                Akcje
-              </TableCell>
+              <TableCell>Akcje</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{list}</TableBody>

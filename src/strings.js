@@ -12,6 +12,7 @@ export const paths = {
   login: "/login",
   registration: "/register",
   orderCreation: "/order",
+  orderInfo: "/orderInfo",
   reviewCreation: "/review",
   reviewList: "/reviewList",
 };
@@ -32,6 +33,7 @@ const DELIVERED = "delivered";
 const USED = "used";
 const CONFIRMED = "confirmed";
 const AVAILABLE = "available";
+const REPORTED = "reported";
 
 export const API_BASE_URL = "https://localhost:5001";
 
@@ -52,11 +54,13 @@ export const ENDPOINT = {
   confirmDonation: createURL(DONATION),
   confirmGiftCard: createURL(GIFTCARD),
   getReviews: createURL(REVIEW, ENTREPRENEUR),
+  getReportedReviews: createURL(REVIEW, REPORTED),
   getProducts: createURL(PRODUCT, ENTREPRENEUR),
   getActiveDonations: createURL(DONATION, ACTIVE),
   getConfirmedDonations: createURL(DONATION, CONFIRMED),
   getHistoryDonations: createURL(DONATION, HISTORY),
   getActiveGiftCards: createURL(GIFTCARD, ACTIVE),
+  getReportedGiftCards: createURL(GIFTCARD, REPORTED),
   getUsedGiftCards: createURL(GIFTCARD, USED),
   getHistoryGiftCards: createURL(GIFTCARD, HISTORY),
   getActiveOrders: createURL(ORDER, ACTIVE),
@@ -65,6 +69,8 @@ export const ENDPOINT = {
   getAvailableGiftCards: createURL(GIFTCARD, AVAILABLE),
   getContributor: createURL(CONTRIBUTOR),
   useGiftCard: createURL(GIFTCARD),
+  reviewOperations: createURL(REVIEW),
+  getOrderInfo: createURL(ORDER),
 };
 
 export const REQUEST_STATUS = {

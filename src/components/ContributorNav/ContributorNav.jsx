@@ -19,7 +19,7 @@ const ContributorNav = () => {
   };
 
   const handleHistory = () => {
-    history.push(paths.contributorHistory);
+    history.push(paths.accountView);
   };
 
   return (

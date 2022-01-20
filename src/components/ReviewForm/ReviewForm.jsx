@@ -6,6 +6,8 @@ import TextField from "@mui/material/TextField";
 import ReviewService from "../../services/reviews";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
 const ReviewForm = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
@@ -39,43 +41,81 @@ const ReviewForm = () => {
   const location = useLocation();
   console.log(location.state);
   return (
-    <>
-      <h3>{`Wybrano przedsiębiorstwo o nazwie ${location.state.entrepreneur.name} i id ${location.state.entrepreneur.id}`}</h3>
-      <div>Review Form</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Select
-          {...register("grade")}
-          id="grade"
-          label="Ocena"
-          value={grade}
-          onChange={handleSelectChange}
-          helpertext="Wybierz ocenę"
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div
+        style={{
+          display: "flex",
+          padding: 20,
+          justifyContent: "center",
+        }}
+      >
+        <Grid
+          container
+          xs={4}
+          spacing={3}
+          style={{
+            border: "2px solid black",
+            borderRadius: 25,
+            boxShadow: "0 0 3px 3px gray",
+            justifyContent: "center",
+            display: "flex",
+          }}
         >
-          <MenuItem key={1} value={1}>
-            {1}
-          </MenuItem>
-          <MenuItem key={2} value={2}>
-            {2}
-          </MenuItem>
-          <MenuItem key={3} value={3}>
-            {3}
-          </MenuItem>
-          <MenuItem key={4} value={4}>
-            {4}
-          </MenuItem>
-          <MenuItem key={5} value={5}>
-            {5}
-          </MenuItem>
-        </Select>
-        <TextField
-          defaultValue="Treść recenzji"
-          {...register("reviewBody", { required: true })}
-        />
-        {errors.reviewBody && <span>Treść recenzji jest wymagana</span>}
-        <br />
-        <input type="submit" />
-      </form>
-    </>
+          <Grid item xs={12} style={{ align: "center" }}>
+            <h3>{`Recenzja przedsiębiorstwa ${location.state.entrepreneur.name}`}</h3>
+          </Grid>
+          <Grid item xs={2}>
+            Ocena
+            <br />
+            <Select
+              {...register("grade")}
+              id="grade"
+              label="Ocena"
+              value={grade}
+              onChange={handleSelectChange}
+              helpertext="Wybierz ocenę"
+            >
+              <MenuItem key={1} value={1}>
+                {1}
+              </MenuItem>
+              <MenuItem key={2} value={2}>
+                {2}
+              </MenuItem>
+              <MenuItem key={3} value={3}>
+                {3}
+              </MenuItem>
+              <MenuItem key={4} value={4}>
+                {4}
+              </MenuItem>
+              <MenuItem key={5} value={5}>
+                {5}
+              </MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={10}>
+            <TextField
+              label="Treść recenzji"
+              multiline
+              rows={5}
+              style={{ width: "90%" }}
+              {...register("reviewBody", { required: true })}
+            />
+            {errors.reviewBody && <span>Treść recenzji jest wymagana</span>}
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ margin: 10 }}
+            >
+              {" "}
+              Prześlij{" "}
+            </Button>
+          </Grid>
+        </Grid>
+      </div>
+    </form>
   );
 };
 export default ReviewForm;

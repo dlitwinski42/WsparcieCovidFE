@@ -30,11 +30,53 @@ class DonationService {
 
   static async confirmDonation(donationId) {
     try {
-      console.log("i tried");
+      console.log("i tried to confirm");
       console.log(donationId);
       console.log(ENDPOINT.confirmDonation);
       const { data } = await axios.get(
         `${ENDPOINT.confirmDonation}/${donationId}/confirm`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
+  static async reportDonation(donationId) {
+    try {
+      console.log("i tried to report");
+      console.log(donationId);
+      console.log(ENDPOINT.confirmDonation);
+      const { data } = await axios.get(
+        `${ENDPOINT.confirmDonation}/${donationId}/report`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
+  static async failDonation(donationId) {
+    try {
+      console.log("i tried to fail");
+      console.log(donationId);
+      console.log(ENDPOINT.confirmDonation);
+      const { data } = await axios.get(
+        `${ENDPOINT.confirmDonation}/${donationId}/fail`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
+  static async returnDonation(donationId) {
+    try {
+      console.log("i tried to return");
+      console.log(donationId);
+      console.log(ENDPOINT.confirmDonation);
+      const { data } = await axios.get(
+        `${ENDPOINT.confirmDonation}/${donationId}/return`
       );
       return { status: REQUEST_STATUS.SUCCESS, data };
     } catch (error) {
@@ -50,6 +92,18 @@ class DonationService {
       const { data } = await axios.get(
         `${ENDPOINT.getConfirmedDonations}/${entrepreneurId}`
       );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
+
+  static async getReported(entrepreneurId) {
+    try {
+      console.log("Trying reported donations");
+      console.log(entrepreneurId);
+      console.log(ENDPOINT.getConfirmedDonations);
+      const { data } = await axios.get(`${ENDPOINT.confirmDonation}/reported`);
       return { status: REQUEST_STATUS.SUCCESS, data };
     } catch (error) {
       return { status: REQUEST_STATUS.ERROR, error };

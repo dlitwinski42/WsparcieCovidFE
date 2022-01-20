@@ -60,9 +60,7 @@ const AvailableGiftCards = () => {
               <TableCell>Kod</TableCell>
               <TableCell>Kwota</TableCell>
               <TableCell>Wspierający</TableCell>
-              <TableCell align="right" colSpan="3">
-                Akcje
-              </TableCell>
+              <TableCell>Akcje</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{list}</TableBody>

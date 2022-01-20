@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import ProductsService from "../../services/products";
 import ContributorsService from "../../services/contributors";
 import OrdersService from "../../services/orders";
+import Grid from "@mui/material/Grid";
 
 const Order = () => {
   const [list, setList] = useState();
@@ -143,6 +144,7 @@ const Order = () => {
           </Button>
           <TextField
             defaultValue={0}
+            style={{ width: "60px" }}
             {...register(`${product.id}`, { required: true })}
           />
           <Button
@@ -161,12 +163,18 @@ const Order = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
 
   return (
-    <>
-      <h3>{`Wybrano przedsiębiorstwo o nazwie ${location.state.entrepreneur.name} i id ${location.state.entrepreneur.id}`}</h3>
+    <div
+      style={{
+        padding: 20,
+      }}
+    >
+      <h3>{`Zamówienie z przedsiębiorstwa ${location.state.entrepreneur.name} `}</h3>
       <div> Zamówienie </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {!contributor.address && (
-          <AddressForm register={register} errors={errors} />
+          <Grid container xs={4}>
+            <AddressForm register={register} errors={errors} />
+          </Grid>
         )}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -183,7 +191,7 @@ const Order = () => {
         </TableContainer>
         <input type="submit" />
       </form>
-    </>
+    </div>
   );
 };
 

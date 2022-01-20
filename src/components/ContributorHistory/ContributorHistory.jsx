@@ -8,7 +8,7 @@ const ContributorHistory = () => {
 
   return (
     <>
-      <div>Contributor History</div>
+      <h1> Twoja Historia Wsparcia </h1>
       <ContributorDonations />
       <ContributorGiftCards />
     </>

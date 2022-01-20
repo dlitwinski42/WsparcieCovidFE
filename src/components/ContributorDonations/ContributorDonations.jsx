@@ -25,7 +25,7 @@ const ContributorDonations = () => {
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {donation.donationCode}
+          {donation.dateSent}
         </TableCell>
         <TableCell component="th" scope="row">
           {donation.amount}
@@ -45,7 +45,7 @@ const ContributorDonations = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Kod</TableCell>
+              <TableCell>Data</TableCell>
               <TableCell>Kwota</TableCell>
               <TableCell>Nazwa Przedsiębiorstwa</TableCell>
               <TableCell align="right" colSpan="3">
