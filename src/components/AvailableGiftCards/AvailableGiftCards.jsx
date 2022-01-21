@@ -11,15 +11,44 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const AvailableGiftCards = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
   const [list, setList] = useState();
   useEffect(() => getGiftCards(), []);
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+  };
+
+  const handleFailureClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setFailure(false);
+  };
 
   const useGiftCard = async (giftcardId) => {
     let data = await GiftCardService.useGiftCard(giftcardId);
     console.log(data);
+    if (data.status === "SUCCESS") {
+      setSuccess(true);
+    } else {
+      setFailure(true);
+    }
   };
 
   const getGiftCards = async () => {
@@ -66,6 +95,32 @@ const AvailableGiftCards = () => {
           <TableBody>{list}</TableBody>
         </Table>
       </TableContainer>
+      <Snackbar
+        open={success}
+        autoHideDuration={6000}
+        onClose={handleSuccessClose}
+      >
+        <Alert
+          onClose={handleSuccessClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Operacja przebiegła pomyślnie!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={failure}
+        autoHideDuration={6000}
+        onClose={handleFailureClose}
+      >
+        <Alert
+          onClose={handleFailureClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Coś poszło nie tak!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { paths } from "../../strings";
 import { AuthContext } from "../../store/auth";
@@ -13,6 +13,10 @@ import EntrepreneurService from "../../services/entrepreneurs";
 const EntrepreneurPanel = () => {
   const { accessToken, signOut, role, roleId } = useContext(AuthContext);
   const history = useHistory();
+  const [order, setOrder] = useState(false);
+  const [giftcard, setGiftCard] = useState(false);
+  const [donation, setDonation] = useState(false);
+  useEffect(() => getEntrepreneur(), []);
 
   const seeReviews = async (entrepreneurId) => {
     const entrepreneur = await EntrepreneurService.getSingle(entrepreneurId);
@@ -21,6 +25,14 @@ const EntrepreneurPanel = () => {
       pathname: `${paths.reviewList}/${entrepreneur.id}`,
       state: { entrepreneur },
     });
+  };
+
+  const getEntrepreneur = async () => {
+    let data = await EntrepreneurService.getSingle(roleId);
+    console.log(data);
+    setOrder(data.supportMethods.canOrder);
+    setDonation(data.supportMethods.canDonate);
+    setGiftCard(data.supportMethods.canGiftCard);
   };
 
   const createProduct = () => {
@@ -32,17 +44,19 @@ const EntrepreneurPanel = () => {
   return (
     <>
       <h1> Panel Przedsiębiorcy </h1>
-      <Button variant="contained" onClick={() => createProduct()}>
-        Dodaj nowy produkt
-      </Button>
+      {order && (
+        <Button variant="contained" onClick={() => createProduct()}>
+          Dodaj nowy produkt
+        </Button>
+      )}
       <br />
       <Button variant="contained" onClick={() => seeReviews(roleId)}>
         Zobacz recenzje swojej firmy
       </Button>
-      <ActiveDonations />
-      <ActiveGiftCards />
-      <AvailableGiftCards />
-      <ActiveOrders />
+      {donation && <ActiveDonations />}
+      {giftcard && <ActiveGiftCards />}
+      {giftcard && <AvailableGiftCards />}
+      {order && <ActiveOrders />}
     </>
   );
 };

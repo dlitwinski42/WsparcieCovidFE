@@ -26,7 +26,7 @@ const UsedGiftCards = () => {
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {giftcard.redeemCode}
+          {giftcard.timePaid.substring(0, 19).replace(/T/g, " ")}
         </TableCell>
         <TableCell component="th" scope="row">
           {giftcard.amount}
@@ -47,12 +47,10 @@ const UsedGiftCards = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Kod</TableCell>
+              <TableCell>Data Wykorzystania</TableCell>
               <TableCell>Kwota</TableCell>
               <TableCell>Wspierający</TableCell>
-              <TableCell align="right" colSpan="3">
-                Akcje
-              </TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{list}</TableBody>

@@ -26,10 +26,10 @@ const ContributorGiftCards = () => {
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {giftcard.timeOrdered}
+          {giftcard.timeOrdered.substring(0, 19).replace(/T/g, " ")}
         </TableCell>
         <TableCell component="th" scope="row">
-          {giftcard.timeUsed}
+          {giftcard.timeUsed.substring(0, 19).replace(/T/g, " ")}
         </TableCell>
         <TableCell component="th" scope="row">
           {giftcard.amount}

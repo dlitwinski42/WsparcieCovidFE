@@ -8,7 +8,7 @@ const WhoAmI = () => {
   const { accessToken, role, roleId } = useContext(AuthContext);
   return (
     <>
-      Admin Panel
+      <h1>{`Panel admina`}</h1>
       <AdminDonations />
       <AdminGiftCards />
       <AdminReviews />

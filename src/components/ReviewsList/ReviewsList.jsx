@@ -38,10 +38,12 @@ const ReviewList = () => {
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {review.timestamp}
+          {review.timestamp.substring(0, 19).replace(/T/g, " ")}
         </TableCell>
         <TableCell component="th" scope="row">
-          {review.contributor.id}
+          {review.contributor.user.firstName +
+            " " +
+            review.contributor.user.lastName}
         </TableCell>
         <TableCell component="th" scope="row">
           {review.grade}
@@ -49,11 +51,13 @@ const ReviewList = () => {
         <TableCell component="th" scope="row">
           {review.reviewBody}
         </TableCell>
-        <TableCell component="th" scope="row">
-          <Button variant="contained" onClick={() => reportReview(review.id)}>
-            Zgłoś
-          </Button>
-        </TableCell>
+        {role != "Contributor" && (
+          <TableCell component="th" scope="row">
+            <Button variant="contained" onClick={() => reportReview(review.id)}>
+              Zgłoś
+            </Button>
+          </TableCell>
+        )}
       </TableRow>
     ));
     setList(array);

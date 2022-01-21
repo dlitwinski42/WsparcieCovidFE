@@ -15,6 +15,8 @@ const OrderInfo = () => {
   const location = useLocation();
   console.log(location.state);
   const [list, setList] = useState();
+  const [timeOrdered, setTimeOrdered] = useState(null);
+  const [timeRecieved, setTimeRecieved] = useState(null);
 
   useEffect(() => getOrder(), []);
   const getOrder = async () => {
@@ -39,9 +41,23 @@ const OrderInfo = () => {
 
   return (
     <>
-      <div>Order Info</div>;
       <Box>
         <h3> Szczegóły zamówienia</h3>
+        <h5>
+          {" "}
+          {`Zamówiono: ${location.state.order.dateOrdered
+            .substring(0, 19)
+            .replace(/T/g, " ")}`}{" "}
+        </h5>
+        {location.state.order.status === 1 && (
+          <h5>
+            {" "}
+            {`Potwierdzono odbiór: ${location.state.order.dateReceived
+              .substring(0, 19)
+              .replace(/T/g, " ")}`}{" "}
+          </h5>
+        )}
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

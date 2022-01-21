@@ -12,7 +12,6 @@ import Navbar from "./components/Navbar";
 import MenuDrawer from "./components/Drawer";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
-import WhoAmI from "./components/WhoAmI";
 import Order from "./components/Order";
 import { AuthContextProvider } from "./store/auth.jsx";
 import "./App.css";
@@ -33,7 +32,7 @@ function App() {
         <Box sx={{ marginLeft: isDrawerOpen ? 240 : 0 }}>
           <Navbar onClickOpenDrawer={() => openDrawer((state) => !state)} />
           <MenuDrawer open={isDrawerOpen} onClose={() => openDrawer(false)} />
-          <WhoAmI />
+          <br />
           <Switch>
             <Route exact path={paths.accountView}>
               <Account />

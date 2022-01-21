@@ -11,31 +11,31 @@ const EntrepreneurForm = ({ register, errors, control }) => {
       {" "}
       <Grid item xs={6}>
         <TextField
-          defaultValue="Nazwa przedsiębiorstwa"
+          label="Nazwa przedsiębiorstwa"
           {...register("name", { required: true })}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
-          defaultValue="Nr Telefonu"
+          label="Nr Telefonu"
           {...register("phoneNumber", { required: true })}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
-          defaultValue="Krótki opis"
+          label="Krótki opis"
           {...register("description", { required: true })}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
-          defaultValue="Nr NIP"
+          label="Nr NIP"
           {...register("NIPNumber", { required: true })}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
-          defaultValue="Nr Konta"
+          label="Nr Konta"
           {...register("BankAccountNumber", { required: true })}
         />
       </Grid>

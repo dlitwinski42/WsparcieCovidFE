@@ -7,6 +7,7 @@ import GiftCardService from "../../services/giftcards";
 import EntrepreneurService from "../../services/entrepreneurs";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -37,6 +38,10 @@ const GiftCard = () => {
         const returnVal = await GiftCardService.create(formValues);
         setCode(returnVal.data.redeemCode);
         console.log(returnVal);
+        if (returnVal.status == "ERROR") {
+          setMessage("Coś poszło nie tak!");
+          setFailure(true);
+        }
       } else {
         setMessage("Wartość karty podarunkowej musi być większa od 0!");
         setFailure(true);
@@ -85,13 +90,22 @@ const GiftCard = () => {
         <br />
         {errors.amount && <span>Wartość karty podarunkowej jest wymagana</span>}
         <br />
-        <input type="submit" />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          style={{ margin: 10 }}
+        >
+          {" "}
+          Prześlij{" "}
+        </Button>
         {bankNum && (
           <div>
             <span>Nr konta: {bankNum} </span>
             <br />
             <span>
-              Prosimy w tytule przelewu wpisać następujący kod: {code}
+              Prosimy w tytule przelewu wpisać frazę "Kod karty podarunkowej:{" "}
+              {code}"
             </span>
           </div>
         )}

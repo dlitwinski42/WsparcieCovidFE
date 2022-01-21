@@ -10,20 +10,54 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
-const ActiveDonations = () => {
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const ActiveDonations = (fireSuccess, fireFailure) => {
   const { accessToken, role, roleId } = useContext(AuthContext);
   const [list, setList] = useState();
   useEffect(() => getDonations(), []);
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+  };
+
+  const handleFailureClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setFailure(false);
+  };
 
   const confirmDonation = async (donationId) => {
     let data = await DonationService.confirmDonation(donationId);
     console.log(data);
+    if (data.status === "SUCCESS") {
+      setSuccess(true);
+    } else {
+      setFailure(true);
+    }
   };
 
   const reportDonation = async (donationId) => {
     let data = await DonationService.reportDonation(donationId);
     console.log(data);
+    if (data.status === "SUCCESS") {
+      setSuccess(true);
+    } else {
+      setFailure(true);
+    }
   };
 
   const getDonations = async () => {
@@ -35,7 +69,7 @@ const ActiveDonations = () => {
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {donation.dateSent}
+          {donation.dateSent.substring(0, 19).replace(/T/g, " ")}
         </TableCell>
         <TableCell component="th" scope="row">
           {donation.donationCode}
@@ -83,6 +117,32 @@ const ActiveDonations = () => {
           <TableBody>{list}</TableBody>
         </Table>
       </TableContainer>
+      <Snackbar
+        open={success}
+        autoHideDuration={6000}
+        onClose={handleSuccessClose}
+      >
+        <Alert
+          onClose={handleSuccessClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Operacja przebiegła pomyślnie!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={failure}
+        autoHideDuration={6000}
+        onClose={handleFailureClose}
+      >
+        <Alert
+          onClose={handleFailureClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Coś poszło nie tak!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

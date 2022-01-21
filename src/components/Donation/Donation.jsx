@@ -104,7 +104,7 @@ const Donation = () => {
             <span>Nr konta: {bankNum} </span>
             <br />
             <span>
-              Prosimy w tytule przelewu wpisać następujący kod: {code}
+              Prosimy w tytule przelewu wpisać frazę: "Kod wsparcia: {code}"
             </span>
           </div>
         )}

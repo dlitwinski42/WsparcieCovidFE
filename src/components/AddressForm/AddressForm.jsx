@@ -7,32 +7,46 @@ const AddressForm = ({ register, errors }) => {
     <>
       {" "}
       <Grid item xs={6}>
-        <TextField
-          defaultValue="Miasto"
-          {...register("city", { required: true })}
-        />
-        {errors.city && <span>Miasto jest wymagane</span>}
+        <TextField label="Miasto" {...register("city", { required: true })} />
+        {errors.city && (
+          <span>
+            <br />
+            Miasto jest wymagane
+          </span>
+        )}
+      </Grid>
+      <Grid item xs={6}>
+        <TextField label="Ulica" {...register("street", { required: true })} />
+        {errors.street && (
+          <span>
+            <br />
+            Ulica jest wymagane
+          </span>
+        )}
       </Grid>
       <Grid item xs={6}>
         <TextField
-          defaultValue="Ulica"
-          {...register("street", { required: true })}
-        />
-        {errors.street && <span>Miasto jest wymagane</span>}
-      </Grid>
-      <Grid item xs={6}>
-        <TextField
-          defaultValue="Nr Domu"
+          label="Nr Domu"
           {...register("houseNumber", { required: true })}
         />
-        {errors.city && <span>Miasto jest wymagane</span>}
+        {errors.city && (
+          <span>
+            <br />
+            Nr domu jest wymagany
+          </span>
+        )}
       </Grid>
       <Grid item xs={6}>
         <TextField
-          defaultValue="Nr Mieszkania"
+          label="Nr Lokalu"
           {...register("flatNumber", { required: true })}
         />
-        {errors.city && <span>Miasto jest wymagane</span>}
+        {errors.city && (
+          <span>
+            <br />
+            Nr lokalu jest wymagany
+          </span>
+        )}
       </Grid>
     </>
   );

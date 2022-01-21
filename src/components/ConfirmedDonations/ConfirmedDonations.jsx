@@ -25,7 +25,7 @@ const ConfirmedDonations = () => {
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {donation.donationCode}
+          {donation.dateConfirmed.substring(0, 19).replace(/T/g, " ")}
         </TableCell>
         <TableCell component="th" scope="row">
           {donation.amount}
@@ -46,12 +46,9 @@ const ConfirmedDonations = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Kod</TableCell>
+              <TableCell>Data Potwierdzenia</TableCell>
               <TableCell>Kwota</TableCell>
               <TableCell>Wspierający</TableCell>
-              <TableCell align="right" colSpan="3">
-                Akcje
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{list}</TableBody>

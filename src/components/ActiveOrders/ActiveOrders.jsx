@@ -37,6 +37,16 @@ const ActiveOrders = () => {
     }
   };
 
+  const failOrder = async (orderId) => {
+    let data = await OrdersService.failOrder(orderId);
+    console.log(data);
+    if (data.status === "SUCCESS") {
+      setSuccess(true);
+    } else if (data.status === "ERROR") {
+      setFailure(true);
+    }
+  };
+
   const handleSuccessClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -84,6 +94,9 @@ const ActiveOrders = () => {
           </Button>{" "}
           <Button variant="contained" onClick={() => seeOrderInfo(order)}>
             Zobacz szczegóły
+          </Button>{" "}
+          <Button variant="contained" onClick={() => failOrder(order.id)}>
+            Usuń
           </Button>
         </TableCell>
       </TableRow>
@@ -116,7 +129,7 @@ const ActiveOrders = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          This is a success message!
+          Operacja przebiegła pomyślnie!
         </Alert>
       </Snackbar>
       <Snackbar

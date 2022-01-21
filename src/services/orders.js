@@ -96,5 +96,20 @@ class OrdersService {
       return { status: REQUEST_STATUS.ERROR, error };
     }
   }
+
+  static async failOrder(orderId) {
+    try {
+      console.log("i tried");
+      console.log(orderId);
+      console.log(ENDPOINT.confirmOrder);
+      console.log();
+      const { data } = await axios.get(
+        `${ENDPOINT.confirmOrder}/${orderId}/failed`
+      );
+      return { status: REQUEST_STATUS.SUCCESS, data };
+    } catch (error) {
+      return { status: REQUEST_STATUS.ERROR, error };
+    }
+  }
 }
 export default OrdersService;

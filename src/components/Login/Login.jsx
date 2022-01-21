@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -7,6 +7,12 @@ import { paths } from "../../strings.js";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Login = () => {
   const {
@@ -17,13 +23,23 @@ const Login = () => {
 
   const { accessToken, signIn } = useContext(AuthContext);
   const onSubmit = async (data) => {
-    console.log(data);
     if (await signIn(data)) {
       history.push(paths.accountView);
+    } else {
+      setFailure(true);
     }
   };
+  const [failure, setFailure] = useState(false);
 
   const history = useHistory();
+
+  const handleFailureClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setFailure(false);
+  };
 
   if (accessToken) {
     return <Redirect to={paths.accountView} />;
@@ -85,6 +101,19 @@ const Login = () => {
           </Grid>
         </Grid>
       </div>
+      <Snackbar
+        open={failure}
+        autoHideDuration={6000}
+        onClose={handleFailureClose}
+      >
+        <Alert
+          onClose={handleFailureClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Nieprawidłowe dane logowania!
+        </Alert>
+      </Snackbar>
     </form>
   );
 };

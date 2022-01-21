@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import OrdersService from "../../services/orders";
 import { AuthContext } from "../../store/auth";
+import { paths } from "../../strings";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,16 +14,21 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
 const DeliveredOrders = () => {
+  const history = useHistory();
   const { accessToken, role, roleId } = useContext(AuthContext);
   const [list, setList] = useState();
   useEffect(() => getOrders(), []);
 
-  const seeOrder = async (orderId) => {
-    console.log("Zobacz szczegóły");
+  const seeOrderInfo = async (order) => {
+    console.log("Zobacz szczegóły zamówienia" + order.id);
+    history.push({
+      pathname: `${paths.orderInfo}/${order.id}`,
+      state: { order },
+    });
   };
 
   const getOrders = async () => {
-    let data = await OrdersService.getActive(roleId);
+    let data = await OrdersService.getDelivered(roleId);
     console.log(data);
     let array = data.data.map((order) => (
       <TableRow
@@ -38,7 +45,7 @@ const DeliveredOrders = () => {
           {order.contributor.user.firstName} {order.contributor.user.lastName}
         </TableCell>
         <TableCell component="th" scope="row">
-          <Button variant="contained" onClick={() => seeOrder(order.id)}>
+          <Button variant="contained" onClick={() => seeOrderInfo(order)}>
             Zobacz szczegóły
           </Button>
         </TableCell>
@@ -56,9 +63,7 @@ const DeliveredOrders = () => {
             <TableRow>
               <TableCell>Adres</TableCell>
               <TableCell>Dane zamawiającego</TableCell>
-              <TableCell align="right" colSpan="3">
-                Akcje
-              </TableCell>
+              <TableCell>Akcje</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{list}</TableBody>

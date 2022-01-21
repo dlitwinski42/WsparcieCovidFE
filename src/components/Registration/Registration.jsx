@@ -7,6 +7,8 @@ import AddressForm from "../AddressForm";
 import EntrepreneurForm from "../EntrepreneurForm";
 import MenuItem from "@mui/material/MenuItem";
 import AuthService from "../../services/auth";
+import { useHistory } from "react-router-dom";
+import { paths } from "../../strings";
 import Select from "@mui/material/Select";
 import { Controller } from "react-hook-form";
 import Snackbar from "@mui/material/Snackbar";
@@ -97,21 +99,23 @@ const Registration = () => {
   });
   const [failure, setFailure] = useState(false);
   const [message, setMessage] = useState();
+  const history = useHistory();
   const onSubmit = async (data) => {
     console.log(data);
     console.log(data.Password.length);
+    console.log(!isNaN(parseInt(data.flatNumber)));
     if (data.confirmPassword !== data.Password) {
       setMessage("Nieprawidłowe dane: hasło niezgodne z potwierdzeniem hasła");
       setFailure(true);
     } else if (
-      !isNaN(parseInt(data.flatNumber)) ||
-      parseInt(data.flatNumber) <= 0
+      checked &&
+      (isNaN(parseInt(data.flatNumber)) || parseInt(data.flatNumber) <= 0)
     ) {
       setMessage("Nieprawidłowe dane: numer mieszkania");
       setFailure(true);
     } else if (
-      !isNaN(parseInt(data.flatNumber)) ||
-      parseInt(data.flatNumber) <= 0
+      checked &&
+      (isNaN(parseInt(data.houseNumber)) || parseInt(data.houseNumber) <= 0)
     ) {
       setMessage("Nieprawidłowe dane: numer domu");
       setFailure(true);
@@ -120,24 +124,38 @@ const Registration = () => {
         "Nieprawidłowe dane: hasło powinno zawierać co najmniej 6 znaków"
       );
       setFailure(true);
-    } else if (!validateNIP(data.NIPNumber)) {
+    } else if (data.role === "Entrepreneur" && !validateNIP(data.NIPNumber)) {
       setMessage("Nieprawidłowe dane: błędny numer NIP");
       setFailure(true);
-    } else if (!validateBankAccount(data.BankAccountNumber)) {
+    } else if (
+      data.role === "Entrepreneur" &&
+      !validateBankAccount(data.BankAccountNumber)
+    ) {
       setMessage("Nieprawidłowe dane: błędny numer konta");
       setFailure(true);
-    } else if (!validateTelNumber(data.phoneNumber)) {
+    } else if (
+      data.role === "Entrepreneur" &&
+      !validateTelNumber(data.phoneNumber)
+    ) {
       setMessage("Nieprawidłowe dane: błędny numer telefonu");
       setFailure(true);
-    } else if (!validateEmail(data.email)) {
+    } else if (data.role === "Entrepreneur" && !validateEmail(data.email)) {
       setMessage("Nieprawidłowe dane: błędny email");
       setFailure(true);
+    } else {
+      const returnVal = await AuthService.create(data);
+      if (returnVal.status === "SUCCESS") {
+        history.push({
+          pathname: paths.login,
+        });
+      } else {
+        setMessage("Coś poszło nie tak");
+        setFailure(true);
+      }
     }
-
-    //const returnVal = await AuthService.create(data);
   };
 
-  const [role, setRole] = React.useState("Entrepreneur");
+  const [role, setRole] = React.useState("Contributor");
 
   const [checked, setChecked] = React.useState(true);
   const handleCheckboxChange = (event) => {
@@ -190,7 +208,12 @@ const Registration = () => {
               label="Login"
               {...register("Username", { required: true })}
             />
-            {errors.login && <span>Login jest wymagany</span>}
+            {errors.login && (
+              <span>
+                <br />
+                Login jest wymagany
+              </span>
+            )}
           </Grid>
 
           <Grid item xs={6}>
@@ -208,34 +231,51 @@ const Registration = () => {
               {...register("confirmPassword", { required: true })}
             />
             {/* errors will return when field validation fails  */}
-            {errors.confirmPassword && <span>Hasło jest wymagane</span>}
+            {errors.confirmPassword && (
+              <span>
+                <br />
+                Hasło jest wymagane
+              </span>
+            )}
           </Grid>
 
           <Grid item xs={6}>
             <TextField
               label="Imię"
-              defaultValue="Jan"
               {...register("FirstName", { required: true })}
             />
-            {errors.name && <span>Imie jest wymagane</span>}
+            {errors.name && (
+              <span>
+                <br />
+                Imie jest wymagane
+              </span>
+            )}
           </Grid>
 
           <Grid item xs={6}>
             <TextField
               label="Nazwisko"
-              defaultValue="Kowalski"
               {...register("LastName", { required: true })}
             />
-            {errors.surname && <span>Nazwisko jest wymagane</span>}
+            {errors.surname && (
+              <span>
+                <br />
+                Nazwisko jest wymagane
+              </span>
+            )}
           </Grid>
 
           <Grid item xs={6}>
             <TextField
               label="Email"
-              defaultValue="Email"
               {...register("email", { required: true })}
             />
-            {errors.email && <span>Email jest wymagany</span>}
+            {errors.email && (
+              <span>
+                <br />
+                Email jest wymagany
+              </span>
+            )}
           </Grid>
           <Grid item xs={6}>
             <Select

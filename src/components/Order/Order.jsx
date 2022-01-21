@@ -16,6 +16,12 @@ import ProductsService from "../../services/products";
 import ContributorsService from "../../services/contributors";
 import OrdersService from "../../services/orders";
 import Grid from "@mui/material/Grid";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Order = () => {
   const [list, setList] = useState();
@@ -31,6 +37,9 @@ const Order = () => {
     if (orderId != null) {
       console.log("==== useEffect ====");
       console.log(orderId);
+      if (orderId.status === "ERROR") {
+        setFailure(true);
+      }
       console.log(amountInfo);
       for (const [key, value] of Object.entries(amountInfo)) {
         console.log(`${key}: ${value}`);
@@ -42,12 +51,34 @@ const Order = () => {
           };
           let productVal = ProductsService.addProduct(productFormValues);
           console.log(productVal);
+          if (productVal.status === "ERROR") {
+            setFailure(true);
+          }
         }
       }
+      setSuccess(true);
     }
   }, [orderId]);
   const location = useLocation();
   console.log(location.state);
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+  };
+
+  const handleFailureClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setFailure(false);
+  };
 
   const {
     register,
@@ -169,10 +200,12 @@ const Order = () => {
       }}
     >
       <h3>{`Zamówienie z przedsiębiorstwa ${location.state.entrepreneur.name} `}</h3>
-      <div> Zamówienie </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {!contributor.address && (
           <Grid container xs={4}>
+            <Grid item xs={12}>
+              <h5> Formularz Adresowy</h5>
+            </Grid>
             <AddressForm register={register} errors={errors} />
           </Grid>
         )}
@@ -183,14 +216,48 @@ const Order = () => {
                 <TableCell>Nazwa</TableCell>
                 <TableCell>Opis</TableCell>
                 <TableCell>Cena</TableCell>
-                <TableCell align="right">Ilość</TableCell>
+                <TableCell>Ilość</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{list}</TableBody>
           </Table>
         </TableContainer>
-        <input type="submit" />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          style={{ margin: 10 }}
+        >
+          {" "}
+          Prześlij{" "}
+        </Button>
       </form>
+      <Snackbar
+        open={success}
+        autoHideDuration={6000}
+        onClose={handleSuccessClose}
+      >
+        <Alert
+          onClose={handleSuccessClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Złożono zamówienie!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={failure}
+        autoHideDuration={6000}
+        onClose={handleFailureClose}
+      >
+        <Alert
+          onClose={handleFailureClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Coś poszło nie tak!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
